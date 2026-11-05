@@ -3,43 +3,55 @@ import { collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, getDocs } fr
 
 const colRef = collection(db, "portfolio_db");
 
-// Pre-loaded original items
+// Default initial items
 const DEFAULTS = [
-    { category: 'projects', title: 'Pet Papa', description: 'Mobile app for pet owners with nutrition tracking.' },
-    { category: 'projects', title: 'Smart Traffic Management', description: 'Intersection coordinator with queue prediction.' },
-    { category: 'projects', title: 'FocusFlow', description: 'Browser extension offering Pomodoro timers.' },
+    { category: 'projects', title: 'Pet Papa 🐱', description: 'Mobile app for pet owners with nutrition tracking.' },
+    { category: 'projects', title: 'Smart Traffic Management 🚸', description: 'Intersection coordinator with queue prediction.' },
+    { category: 'projects', title: 'FocusFlow 🛸', description: 'Browser extension offering Pomodoro timers.' },
+    { category: 'projects', title: 'Ratio & Iconic Hub 🎓', description: 'EdTech platforms for online programming bootcamps.' },
     
     { category: 'skills', title: 'Basic Programming & C', description: 'Logic structures and algorithm design.' },
     { category: 'skills', title: 'HTML & CSS', description: 'Semantic markup and responsive layouts.' },
     { category: 'skills', title: 'Java & Python', description: 'Object-oriented programming and scripting.' },
+    { category: 'skills', title: 'Lovable Prototyping', description: 'Building fast interactive web applications.' },
 
     { category: 'education', title: 'Adamjee Cantonment School', description: 'Completed JSC in Dhaka.' },
     { category: 'education', title: 'Ispahani Public School', description: 'Completed SSC & HSC in Comilla.' },
-    { category: 'education', title: 'Independent University, Bangladesh', description: '4th year BSc in CSE.' }
+    { category: 'education', title: 'Undergraduate CSE · IUB', description: '4th year BSc in Computer Science & Engineering.' }
 ];
 
-// Auto seed default data into database if empty
-async function seed() {
-    const snap = await getDocs(colRef);
-    if (snap.empty) {
-        for (let item of DEFAULTS) {
-            await addDoc(colRef, item);
+// Seed default data if database is empty
+async function seedData() {
+    try {
+        const snap = await getDocs(colRef);
+        if (snap.empty) {
+            for (let item of DEFAULTS) {
+                await addDoc(colRef, item);
+            }
         }
+    } catch (e) {
+        console.log("Seeding error:", e);
     }
 }
-seed();
+seedData();
 
-// Real-time API Read
+// Real-time API Listener
 onSnapshot(colRef, (snapshot) => {
     let edu = "", skill = "", proj = "";
+    
+    if (snapshot.empty) {
+        renderLocalDefaults();
+        return;
+    }
+
     snapshot.forEach((d) => {
         let item = d.data();
         let row = `
             <tr class="hover:bg-slate-800/40">
-                <td class="p-2 font-bold text-white">${item.title}</td>
-                <td class="p-2 text-slate-400">${item.description}</td>
-                <td class="p-2 text-right space-x-2">
-                    <button onclick="window.edit('${d.id}', '${item.category}', \`${item.title}\`, \`${item.description}\`)" class="text-amber-400 font-semibold">Edit</button>
+                <td class="p-2.5 font-bold text-white">${item.title}</td>
+                <td class="p-2.5 text-slate-300">${item.description}</td>
+                <td class="p-2.5 text-right space-x-2">
+                    <button onclick="window.edit('${d.id}', '${item.category}', \`${escapeStr(item.title)}\`, \`${escapeStr(item.description)}\`)" class="text-amber-400 font-semibold">Edit</button>
                     <button onclick="window.del('${d.id}')" class="text-red-400 font-semibold">Delete</button>
                 </td>
             </tr>`;
@@ -48,12 +60,36 @@ onSnapshot(colRef, (snapshot) => {
         else if (item.category === 'projects') proj += row;
     });
 
-    document.getElementById("eduTable").innerHTML = edu || `<tr><td colspan="3" class="p-3 text-center text-slate-500">No data</td></tr>`;
-    document.getElementById("skillTable").innerHTML = skill || `<tr><td colspan="3" class="p-3 text-center text-slate-500">No data</td></tr>`;
-    document.getElementById("projTable").innerHTML = proj || `<tr><td colspan="3" class="p-3 text-center text-slate-500">No data</td></tr>`;
+    document.getElementById("eduTable").innerHTML = edu || `<tr><td colspan="3" class="p-3 text-center text-slate-500">No records found</td></tr>`;
+    document.getElementById("skillTable").innerHTML = skill || `<tr><td colspan="3" class="p-3 text-center text-slate-500">No records found</td></tr>`;
+    document.getElementById("projTable").innerHTML = proj || `<tr><td colspan="3" class="p-3 text-center text-slate-500">No records found</td></tr>`;
 });
 
-// Modal Actions
+function escapeStr(str) {
+    return (str || '').replace(/'/g, "\\'").replace(/"/g, '\\"');
+}
+
+function renderLocalDefaults() {
+    let edu = "", skill = "", proj = "";
+    DEFAULTS.forEach((item, index) => {
+        let row = `
+            <tr class="hover:bg-slate-800/40">
+                <td class="p-2.5 font-bold text-white">${item.title}</td>
+                <td class="p-2.5 text-slate-300">${item.description}</td>
+                <td class="p-2.5 text-right space-x-2">
+                    <button onclick="window.openModal('${item.category}')" class="text-amber-400 font-semibold">Edit</button>
+                </td>
+            </tr>`;
+        if (item.category === 'education') edu += row;
+        else if (item.category === 'skills') skill += row;
+        else if (item.category === 'projects') proj += row;
+    });
+    document.getElementById("eduTable").innerHTML = edu;
+    document.getElementById("skillTable").innerHTML = skill;
+    document.getElementById("projTable").innerHTML = proj;
+}
+
+// Modal Form Controls
 window.openModal = (cat, id = '', title = '', desc = '') => {
     document.getElementById("modal").classList.remove("hidden");
     document.getElementById("modalCat").value = cat;
@@ -84,7 +120,7 @@ document.getElementById("form").addEventListener("submit", async (e) => {
 
 // Delete (API)
 window.del = async (id) => {
-    if (confirm("Delete this?")) {
+    if (confirm("Delete this record from Firebase Database?")) {
         await deleteDoc(doc(db, "portfolio_db", id));
     }
 };
