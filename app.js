@@ -3,7 +3,7 @@ import { collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, getDocs } fr
 
 const colRef = collection(db, "portfolio_db");
 
-// Default initial items
+// Default initial items (Only added if database is completely empty)
 const DEFAULTS = [
     { category: 'projects', title: 'Pet Papa 🐱', description: 'Mobile app for pet owners with nutrition tracking.' },
     { category: 'projects', title: 'Smart Traffic Management 🚸', description: 'Intersection coordinator with queue prediction.' },
@@ -17,10 +17,10 @@ const DEFAULTS = [
 
     { category: 'education', title: 'Adamjee Cantonment School', description: 'Completed JSC in Dhaka.' },
     { category: 'education', title: 'Ispahani Public School', description: 'Completed SSC & HSC in Comilla.' },
-    { category: 'education', title: 'Undergraduate CSE · IUB', description: '4th year BSc in Computer Science & Engineering.' }
+    { category: 'education', title: 'Independent University, Bangladesh', description: '4th year BSc in Computer Science & Engineering.' }
 ];
 
-// Seed default data if database is empty
+// Seed default data ONLY if database is empty to prevent duplicates
 async function seedData() {
     try {
         const snap = await getDocs(colRef);
@@ -35,15 +35,10 @@ async function seedData() {
 }
 seedData();
 
-// Real-time API Listener
+// Real-time API Read & Render
 onSnapshot(colRef, (snapshot) => {
     let edu = "", skill = "", proj = "";
     
-    if (snapshot.empty) {
-        renderLocalDefaults();
-        return;
-    }
-
     snapshot.forEach((d) => {
         let item = d.data();
         let row = `
@@ -69,26 +64,6 @@ function escapeStr(str) {
     return (str || '').replace(/'/g, "\\'").replace(/"/g, '\\"');
 }
 
-function renderLocalDefaults() {
-    let edu = "", skill = "", proj = "";
-    DEFAULTS.forEach((item, index) => {
-        let row = `
-            <tr class="hover:bg-slate-800/40">
-                <td class="p-2.5 font-bold text-white">${item.title}</td>
-                <td class="p-2.5 text-slate-300">${item.description}</td>
-                <td class="p-2.5 text-right space-x-2">
-                    <button onclick="window.openModal('${item.category}')" class="text-amber-400 font-semibold">Edit</button>
-                </td>
-            </tr>`;
-        if (item.category === 'education') edu += row;
-        else if (item.category === 'skills') skill += row;
-        else if (item.category === 'projects') proj += row;
-    });
-    document.getElementById("eduTable").innerHTML = edu;
-    document.getElementById("skillTable").innerHTML = skill;
-    document.getElementById("projTable").innerHTML = proj;
-}
-
 // Modal Form Controls
 window.openModal = (cat, id = '', title = '', desc = '') => {
     document.getElementById("modal").classList.remove("hidden");
@@ -105,7 +80,7 @@ window.closeModal = () => document.getElementById("modal").classList.add("hidden
 // Create & Update (API)
 document.getElementById("form").addEventListener("submit", async (e) => {
     e.preventDefault();
-    let category = document.getElementById("modalCat").value;
+    let category = document.getElementById("modalCat", id).value;
     let id = document.getElementById("modalId").value;
     let title = document.getElementById("modalTitleInput").value;
     let description = document.getElementById("modalDescInput").value;
