@@ -2,86 +2,108 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Md. Tanjil Hasan Bappy · Portfolio</title>
+    <title>Md. Tanjil Hasan Bappy · CSE Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen p-4 max-w-4xl mx-auto space-y-6">
 
-    <!-- Top Navigation Tabs -->
+    <!-- Navbar / Navigation Tabs -->
     <header class="flex flex-wrap gap-2 bg-slate-900 p-3 rounded-xl border border-slate-800 justify-center">
-        <button onclick="switchTab('dashboard')" class="tab-btn px-3 py-1.5 rounded bg-slate-800 text-cyan-400 text-xs font-bold">Dashboard</button>
-        <button onclick="switchTab('myself')" class="tab-btn px-3 py-1.5 rounded text-slate-400 text-xs font-bold">MySelf</button>
-        <button onclick="switchTab('education')" class="tab-btn px-3 py-1.5 rounded text-slate-400 text-xs font-bold">Education</button>
-        <button onclick="switchTab('skills')" class="tab-btn px-3 py-1.5 rounded text-slate-400 text-xs font-bold">Skills</button>
-        <button onclick="switchTab('projects')" class="tab-btn px-3 py-1.5 rounded text-slate-400 text-xs font-bold">Projects</button>
-        <button onclick="switchTab('contact')" class="tab-btn px-3 py-1.5 rounded text-slate-400 text-xs font-bold">Contact</button>
+        <button onclick="switchTab('dashboard')" class="tab-btn px-3.5 py-1.5 rounded bg-slate-800 text-cyan-400 text-xs font-bold">Dashboard</button>
+        <button onclick="switchTab('myself')" class="tab-btn px-3.5 py-1.5 rounded text-slate-400 text-xs font-bold">MySelf</button>
+        <button onclick="switchTab('education')" class="tab-btn px-3.5 py-1.5 rounded text-slate-400 text-xs font-bold">Education</button>
+        <button onclick="switchTab('skills')" class="tab-btn px-3.5 py-1.5 rounded text-slate-400 text-xs font-bold">Skills</button>
+        <button onclick="switchTab('projects')" class="tab-btn px-3.5 py-1.5 rounded text-slate-400 text-xs font-bold">Projects</button>
+        <button onclick="switchTab('contact')" class="tab-btn px-3.5 py-1.5 rounded text-slate-400 text-xs font-bold">Contact</button>
     </header>
 
-    <!-- 1. DASHBOARD -->
-    <div id="tab-dashboard" class="tab-content bg-slate-900 p-6 rounded-2xl border border-slate-800 flex flex-col sm:flex-row items-center gap-6">
-        <img src="https://i.postimg.cc/0Qz6z5sM/1.png" alt="Tanjil" class="w-28 h-28 rounded-full object-cover border-2 border-cyan-400">
-        <div class="space-y-1 text-center sm:text-left">
-            <h1 class="text-xl font-bold text-white">Md. Tanjil Hasan Bappy</h1>
-            <p class="text-xs text-cyan-400 font-semibold">4th Year CSE Student @ Independent University, Bangladesh (IUB)</p>
-            <p class="text-xs text-slate-400">Welcome to my portfolio! API-based CRUD is integrated across Education, Skills, and Projects.</p>
+    <!-- 1. DASHBOARD (Detailed & Bigger Info) -->
+    <div id="tab-dashboard" class="tab-content bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-6">
+        <div class="flex flex-col sm:flex-row items-center gap-6 pb-6 border-b border-slate-800">
+            <img src="https://i.postimg.cc/0Qz6z5sM/1.png" alt="Tanjil" class="w-32 h-32 rounded-full object-cover border-2 border-cyan-400 shadow-lg">
+            <div class="space-y-2 text-center sm:text-left">
+                <h1 class="text-2xl font-bold text-white">Md. Tanjil Hasan Bappy</h1>
+                <p class="text-xs text-cyan-400 font-semibold">4th Year CSE Student @ Independent University, Bangladesh (IUB)</p>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                    Undergraduate Computer Science and Engineering student at IUB. Passionate about web architectures, software development, and mentoring.
+                </p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                <h3 class="font-bold text-cyan-400 uppercase">🚀 Active Ventures</h3>
+                <p>• <b>CSVians:</b> Co-Founder</p>
+                <p>• <b>LoreMotion:</b> Research & Development Co-Lead</p>
+            </div>
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                <h3 class="font-bold text-cyan-400 uppercase">👨‍🏫 Teaching & Leadership</h3>
+                <p>• <b>Ratio:</b> Founder (Teacher Collaborative Network)</p>
+                <p>• <b>Iconic Academy:</b> Main Instructor</p>
+                <p>• <b>Spondon:</b> Co-Ordinator (Kachukhet Branch)</p>
+            </div>
         </div>
     </div>
 
     <!-- 2. MYSELF -->
-    <div id="tab-myself" class="tab-content hidden bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-2">
-        <h2 class="text-sm font-bold text-cyan-400 uppercase">MySelf & Background</h2>
-        <p class="text-xs text-slate-300">CSE student and web architectures enthusiast. Co-founder at CSVians & LoreMotion, Founder of Ratio, and Main Instructor at Iconic Academy.</p>
+    <div id="tab-myself" class="tab-content hidden bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-3">
+        <h2 class="text-sm font-bold text-cyan-400 uppercase">MySelf & Journey</h2>
+        <p class="text-xs text-slate-300 leading-relaxed">
+            My name is Md. Tanjil Hasan Bappy. Currently pursuing 4th year CSE at Independent University, Bangladesh (IUB). I enjoy crafting web tools using HTML, CSS, JavaScript, and Lovable app prototyping. I also have an extensive teaching history across Prime Cadet, Charupath, and Mirza Coaching.
+        </p>
     </div>
 
-    <!-- 3. EDUCATION -->
+    <!-- 3. EDUCATION (CRUD) -->
     <div id="tab-education" class="tab-content hidden bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
         <div class="flex justify-between items-center">
-            <h2 class="text-sm font-bold text-cyan-400 uppercase">Education Records</h2>
-            <button onclick="openModal('education')" class="px-3 py-1 bg-cyan-400 text-black font-bold text-xs rounded">+ Add Education</button>
+            <h2 class="text-sm font-bold text-cyan-400 uppercase">Education & Courses</h2>
+            <button onclick="openModal('education')" class="px-3 py-1 bg-cyan-400 text-black font-bold text-xs rounded hover:bg-cyan-300">+ Add Education</button>
         </div>
         <table class="w-full text-left text-xs">
             <thead class="bg-slate-800 text-slate-400 uppercase">
-                <tr><th class="p-2">Title</th><th class="p-2">Details</th><th class="p-2 text-right">Action</th></tr>
+                <tr><th class="p-2.5">Title</th><th class="p-2.5">Details</th><th class="p-2.5 text-right">Action</th></tr>
             </thead>
             <tbody id="eduTable" class="divide-y divide-slate-800"></tbody>
         </table>
     </div>
 
-    <!-- 4. SKILLS -->
+    <!-- 4. SKILLS (CRUD) -->
     <div id="tab-skills" class="tab-content hidden bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
         <div class="flex justify-between items-center">
-            <h2 class="text-sm font-bold text-cyan-400 uppercase">Skills & Expertise</h2>
-            <button onclick="openModal('skills')" class="px-3 py-1 bg-cyan-400 text-black font-bold text-xs rounded">+ Add Skill</button>
+            <h2 class="text-sm font-bold text-cyan-400 uppercase">Skills & Technical Expertise</h2>
+            <button onclick="openModal('skills')" class="px-3 py-1 bg-cyan-400 text-black font-bold text-xs rounded hover:bg-cyan-300">+ Add Skill</button>
         </div>
         <table class="w-full text-left text-xs">
             <thead class="bg-slate-800 text-slate-400 uppercase">
-                <tr><th class="p-2">Skill</th><th class="p-2">Details</th><th class="p-2 text-right">Action</th></tr>
+                <tr><th class="p-2.5">Skill Name</th><th class="p-2.5">Details</th><th class="p-2.5 text-right">Action</th></tr>
             </thead>
             <tbody id="skillTable" class="divide-y divide-slate-800"></tbody>
         </table>
     </div>
 
-    <!-- 5. PROJECTS -->
+    <!-- 5. PROJECTS (CRUD) -->
     <div id="tab-projects" class="tab-content hidden bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
         <div class="flex justify-between items-center">
             <h2 class="text-sm font-bold text-cyan-400 uppercase">Software Projects</h2>
-            <button onclick="openModal('projects')" class="px-3 py-1 bg-cyan-400 text-black font-bold text-xs rounded">+ Add Project</button>
+            <button onclick="openModal('projects')" class="px-3 py-1 bg-cyan-400 text-black font-bold text-xs rounded hover:bg-cyan-300">+ Add Project</button>
         </div>
         <table class="w-full text-left text-xs">
             <thead class="bg-slate-800 text-slate-400 uppercase">
-                <tr><th class="p-2">Project</th><th class="p-2">Description</th><th class="p-2 text-right">Action</th></tr>
+                <tr><th class="p-2.5">Project Name</th><th class="p-2.5">Description</th><th class="p-2.5 text-right">Action</th></tr>
             </thead>
             <tbody id="projTable" class="divide-y divide-slate-800"></tbody>
         </table>
     </div>
 
     <!-- 6. CONTACT -->
-    <div id="tab-contact" class="tab-content hidden bg-slate-900 p-6 rounded-2xl border border-slate-800 text-center space-y-2">
-        <h2 class="text-sm font-bold text-cyan-400 uppercase">Contact Information</h2>
-        <p class="text-xs text-slate-300">Email: <b>2420829@iub.edu.bd</b> | WhatsApp: <b>+8801316372389</b></p>
+    <div id="tab-contact" class="tab-content hidden bg-slate-900 p-6 rounded-2xl border border-slate-800 text-center space-y-3">
+        <h2 class="text-sm font-bold text-cyan-400 uppercase">Contact Details</h2>
+        <p class="text-xs text-slate-300">Email: <b>2420829@iub.edu.bd</b></p>
+        <p class="text-xs text-slate-300">WhatsApp: <b>+8801316372389</b></p>
+        <p class="text-xs text-slate-300">Portfolio: <a href="https://tanjilhasancv.ai.studio" target="_blank" class="text-cyan-400 underline">tanjilhasancv.ai.studio</a></p>
     </div>
 
-    <!-- Modal Form -->
+    <!-- Form Modal -->
     <div id="modal" class="fixed inset-0 bg-black/70 flex items-center justify-center p-4 hidden z-50">
         <div class="bg-slate-900 border border-slate-700 w-full max-w-sm p-5 rounded-2xl space-y-3">
             <h3 id="modalTitle" class="text-sm font-bold text-white">Add Entry</h3>
@@ -89,7 +111,7 @@
                 <input type="hidden" id="modalCat">
                 <input type="hidden" id="modalId">
                 <input type="text" id="modalTitleInput" placeholder="Title" required class="w-full p-2 bg-slate-800 rounded border border-slate-700 text-xs text-white">
-                <textarea id="modalDescInput" placeholder="Description" rows="2" required class="w-full p-2 bg-slate-800 rounded border border-slate-700 text-xs text-white"></textarea>
+                <textarea id="modalDescInput" placeholder="Description" rows="3" required class="w-full p-2 bg-slate-800 rounded border border-slate-700 text-xs text-white"></textarea>
                 <div class="flex justify-end gap-2">
                     <button type="button" onclick="closeModal()" class="px-3 py-1 bg-slate-800 text-xs rounded">Cancel</button>
                     <button type="submit" class="px-3 py-1 bg-cyan-400 text-black font-bold text-xs rounded">Save</button>
