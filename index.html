@@ -2,27 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Tanjil Profile CRUD</title>
+    <title>Md. Tanjil Hasan Bappy - Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-950 text-white p-6 max-w-3xl mx-auto">
-    <h1 class="text-2xl font-bold mb-4">Profile CRUD with Firebase API</h1>
+<body class="bg-slate-950 text-slate-100 p-6 max-w-2xl mx-auto space-y-6">
 
-    <!-- Add/Edit Form -->
-    <form id="form" class="bg-slate-900 p-4 rounded-xl mb-6 space-y-3">
+    <!-- Basic Profile Section -->
+    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 text-center space-y-2">
+        <h1 class="text-2xl font-bold text-cyan-400">Md. Tanjil Hasan Bappy</h1>
+        <p class="text-sm text-slate-300">4th Year CSE Student at Independent University, Bangladesh (IUB)</p>
+        <p class="text-xs text-slate-400">Profile Page with API & Live CRUD Implementation.</p>
+    </div>
+
+    <!-- CRUD Form -->
+    <form id="form" class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+        <h2 class="text-sm font-bold text-slate-300">Manage Projects & Skills (CRUD)</h2>
         <input type="hidden" id="id">
-        <input type="text" id="title" placeholder="Project or Skill Name" required class="w-full p-2 bg-slate-800 rounded border border-slate-700 text-sm">
-        <input type="text" id="desc" placeholder="Description" required class="w-full p-2 bg-slate-800 rounded border border-slate-700 text-sm">
-        <button type="submit" id="btn" class="w-full py-2 bg-cyan-400 text-black font-bold rounded text-sm">Save Entry</button>
+        <input type="text" id="title" placeholder="Title (e.g. Pet Papa / Python)" required class="w-full p-2 bg-slate-800 rounded border border-slate-700 text-sm text-white">
+        <input type="text" id="desc" placeholder="Description / Details" required class="w-full p-2 bg-slate-800 rounded border border-slate-700 text-sm text-white">
+        <button type="submit" id="btn" class="w-full py-2 bg-cyan-400 text-black font-bold rounded text-sm hover:bg-cyan-300 transition">Save Entry</button>
     </form>
 
     <!-- Data Table -->
-    <table class="w-full text-left text-sm bg-slate-900 rounded-xl overflow-hidden">
-        <thead class="bg-slate-800 text-slate-400">
-            <tr><th class="p-3">Title</th><th class="p-3">Description</th><th class="p-3 text-right">Action</th></tr>
-        </thead>
-        <tbody id="table" class="divide-y divide-slate-800"></tbody>
-    </table>
+    <div class="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden">
+        <table class="w-full text-left text-sm">
+            <thead class="bg-slate-800 text-slate-400 text-xs uppercase">
+                <tr><th class="p-3">Title</th><th class="p-3">Details</th><th class="p-3 text-right">Action</th></tr>
+            </thead>
+            <tbody id="table" class="divide-y divide-slate-800 text-xs"></tbody>
+        </table>
+    </div>
 
     <script type="module" src="app.js"></script>
 </body>
