@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tanjil Profile CRUD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-white p-6 max-w-3xl mx-auto">
+    <h1 class="text-2xl font-bold mb-4">Profile CRUD with Firebase API</h1>
+
+    <!-- Add/Edit Form -->
+    <form id="form" class="bg-slate-900 p-4 rounded-xl mb-6 space-y-3">
+        <input type="hidden" id="id">
+        <input type="text" id="title" placeholder="Project or Skill Name" required class="w-full p-2 bg-slate-800 rounded border border-slate-700 text-sm">
+        <input type="text" id="desc" placeholder="Description" required class="w-full p-2 bg-slate-800 rounded border border-slate-700 text-sm">
+        <button type="submit" id="btn" class="w-full py-2 bg-cyan-400 text-black font-bold rounded text-sm">Save Entry</button>
+    </form>
+
+    <!-- Data Table -->
+    <table class="w-full text-left text-sm bg-slate-900 rounded-xl overflow-hidden">
+        <thead class="bg-slate-800 text-slate-400">
+            <tr><th class="p-3">Title</th><th class="p-3">Description</th><th class="p-3 text-right">Action</th></tr>
+        </thead>
+        <tbody id="table" class="divide-y divide-slate-800"></tbody>
+    </table>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
