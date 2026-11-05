@@ -3,25 +3,23 @@ import { collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, getDocs } fr
 
 const colRef = collection(db, "portfolio_db");
 
-// Default initial items
+// Pre-loaded original items
 const DEFAULTS = [
-    { category: 'projects', title: 'Pet Papa 🐱', description: 'Mobile app for pet owners with nutrition tracking and vet appointment scheduling.' },
-    { category: 'projects', title: 'Smart Traffic Management 🚸', description: 'Intersection coordinator with vehicle queue prediction and emergency green-wave overrides.' },
-    { category: 'projects', title: 'FocusFlow 🛸', description: 'Browser extension providing Pomodoro timers, distraction shields, and soundscapes.' },
-    { category: 'projects', title: 'Ratio & Iconic Academy 🎓', description: 'Educational portals empowering students across Bangladesh.' },
+    { category: 'projects', title: 'Pet Papa', description: 'Mobile app for pet owners with nutrition tracking.' },
+    { category: 'projects', title: 'Smart Traffic Management', description: 'Intersection coordinator with queue prediction.' },
+    { category: 'projects', title: 'FocusFlow', description: 'Browser extension offering Pomodoro timers.' },
+    
+    { category: 'skills', title: 'Basic Programming & C', description: 'Logic structures and algorithm design.' },
+    { category: 'skills', title: 'HTML & CSS', description: 'Semantic markup and responsive layouts.' },
+    { category: 'skills', title: 'Java & Python', description: 'Object-oriented programming and scripting.' },
 
-    { category: 'skills', title: 'Basic Programming & C', description: 'Logic structures, algorithm design, and core programming paradigms.' },
-    { category: 'skills', title: 'HTML & CSS', description: 'Semantic markup, accessibility, and modern responsive layout styling.' },
-    { category: 'skills', title: 'Java & Python', description: 'Object-oriented programming, data structures, and script automation.' },
-    { category: 'skills', title: 'Web Dev & Lovable', description: 'Building interactive web solutions and low-code AI prototypes.' },
-
-    { category: 'education', title: 'JSC · Adamjee Cantonment School', description: 'Junior School Certificate completed at Adamjee Cantonment School, Dhaka.' },
-    { category: 'education', title: 'SSC & HSC · Ispahani Public School', description: 'Secondary & Higher Secondary Certificates from Ispahani Public School, Comilla.' },
-    { category: 'education', title: 'Undergraduate CSE · IUB', description: '4th year BSc in Computer Science and Engineering at Independent University, Bangladesh.' }
+    { category: 'education', title: 'Adamjee Cantonment School', description: 'Completed JSC in Dhaka.' },
+    { category: 'education', title: 'Ispahani Public School', description: 'Completed SSC & HSC in Comilla.' },
+    { category: 'education', title: 'Independent University, Bangladesh', description: '4th year BSc in CSE.' }
 ];
 
-// Auto seed default data if empty
-async function seedData() {
+// Auto seed default data into database if empty
+async function seed() {
     const snap = await getDocs(colRef);
     if (snap.empty) {
         for (let item of DEFAULTS) {
@@ -29,54 +27,46 @@ async function seedData() {
         }
     }
 }
-seedData();
+seed();
 
-// Real-time Read
+// Real-time API Read
 onSnapshot(colRef, (snapshot) => {
-    let eduHtml = "", skillHtml = "", projHtml = "";
-    
+    let edu = "", skill = "", proj = "";
     snapshot.forEach((d) => {
         let item = d.data();
         let row = `
             <tr class="hover:bg-slate-800/40">
-                <td class="p-3 font-bold text-white">${item.title}</td>
-                <td class="p-3 text-slate-400">${item.description}</td>
-                <td class="p-3 text-right space-x-2">
+                <td class="p-2 font-bold text-white">${item.title}</td>
+                <td class="p-2 text-slate-400">${item.description}</td>
+                <td class="p-2 text-right space-x-2">
                     <button onclick="window.edit('${d.id}', '${item.category}', \`${item.title}\`, \`${item.description}\`)" class="text-amber-400 font-semibold">Edit</button>
                     <button onclick="window.del('${d.id}')" class="text-red-400 font-semibold">Delete</button>
                 </td>
             </tr>`;
-
-        if (item.category === 'education') eduHtml += row;
-        else if (item.category === 'skills') skillHtml += row;
-        else if (item.category === 'projects') projHtml += row;
+        if (item.category === 'education') edu += row;
+        else if (item.category === 'skills') skill += row;
+        else if (item.category === 'projects') proj += row;
     });
 
-    document.getElementById("eduTable").innerHTML = eduHtml || `<tr><td colspan="3" class="p-4 text-center text-slate-500">No records</td></tr>`;
-    document.getElementById("skillTable").innerHTML = skillHtml || `<tr><td colspan="3" class="p-4 text-center text-slate-500">No records</td></tr>`;
-    document.getElementById("projTable").innerHTML = projHtml || `<tr><td colspan="3" class="p-4 text-center text-slate-500">No records</td></tr>`;
+    document.getElementById("eduTable").innerHTML = edu || `<tr><td colspan="3" class="p-3 text-center text-slate-500">No data</td></tr>`;
+    document.getElementById("skillTable").innerHTML = skill || `<tr><td colspan="3" class="p-3 text-center text-slate-500">No data</td></tr>`;
+    document.getElementById("projTable").innerHTML = proj || `<tr><td colspan="3" class="p-3 text-center text-slate-500">No data</td></tr>`;
 });
 
-// Modal Controls
-window.openModal = (category, id = '', title = '', desc = '') => {
+// Modal Actions
+window.openModal = (cat, id = '', title = '', desc = '') => {
     document.getElementById("modal").classList.remove("hidden");
-    document.getElementById("modalCat").value = category;
+    document.getElementById("modalCat").value = cat;
     document.getElementById("modalId").value = id;
     document.getElementById("modalTitleInput").value = title;
     document.getElementById("modalDescInput").value = desc;
-    document.getElementById("modalTitle").innerText = id ? `Edit ${category}` : `Add ${category}`;
+    document.getElementById("modalTitle").innerText = id ? `Edit ${cat}` : `Add ${cat}`;
 };
 
-window.edit = (id, category, title, desc) => {
-    window.openModal(category, id, title, desc);
-};
+window.edit = (id, cat, title, desc) => window.openModal(cat, id, title, desc);
+window.closeModal = () => document.getElementById("modal").classList.add("hidden");
 
-window.closeModal = () => {
-    document.getElementById("modal").classList.add("hidden");
-    document.getElementById("form").reset();
-};
-
-// Create & Update
+// Create & Update (API)
 document.getElementById("form").addEventListener("submit", async (e) => {
     e.preventDefault();
     let category = document.getElementById("modalCat").value;
@@ -92,9 +82,9 @@ document.getElementById("form").addEventListener("submit", async (e) => {
     closeModal();
 });
 
-// Delete
+// Delete (API)
 window.del = async (id) => {
-    if (confirm("Delete this entry?")) {
+    if (confirm("Delete this?")) {
         await deleteDoc(doc(db, "portfolio_db", id));
     }
 };
